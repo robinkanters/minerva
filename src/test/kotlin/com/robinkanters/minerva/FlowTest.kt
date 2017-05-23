@@ -6,6 +6,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FlowTest {
+    @Test fun testBasicFlow_ReturnsCorrectResult() {
+        val f = flow<String>("Test") {
+            test("Bar")
+            test("Baz")
+        }
+
+        val result = f("Foo")
+
+        assertEquals("Baz", result)
+    }
+
     @Test fun testBasicFlow_ComponentsAreCalledExactlyOnceWithTheRightParameters() {
         var t1: TestComponent? = null
         var t2: TestComponent? = null
@@ -21,16 +32,5 @@ class FlowTest {
         assertEquals(1, t1!!.timesCalled)
         assertEquals("Bar", t2!!.calledWith)
         assertEquals(1, t2!!.timesCalled)
-    }
-
-    @Test fun testBasicFlow_ReturnsCorrectResult() {
-        val f = flow<String>("Test") {
-            test("Bar")
-            test("Baz")
-        }
-
-        val result = f("Foo")
-
-        assertEquals("Baz", result)
     }
 }
