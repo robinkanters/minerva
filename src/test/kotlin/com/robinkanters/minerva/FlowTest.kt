@@ -3,6 +3,7 @@ package com.robinkanters.minerva
 import com.robinkanters.minerva.Flow.Companion.flow
 import com.robinkanters.minerva.TestComponent.Companion.test
 import org.junit.Assert.assertEquals
+import org.junit.Ignore
 import org.junit.Test
 import kotlin.system.measureNanoTime
 
@@ -59,7 +60,7 @@ class FlowTest {
         assertEquals("Baz", subFlow!!(""))
     }
 
-    @Test fun testPerformanceForFlowWithLotsOfComponents() {
+    @Ignore @Test fun testPerformanceForFlowWithLotsOfComponents() {
         val numComponents = 100000
 
         val f = flow<Int>("count flow") {}
