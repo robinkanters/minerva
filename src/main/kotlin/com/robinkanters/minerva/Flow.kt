@@ -15,7 +15,7 @@ class Flow<T> private constructor(@Suppress("unused") val name: String) : FlowCo
         return process(components[0].run(payload), components.drop(1))
     }
 
-    operator fun plusAssign(flowComponent: FlowComponent<T>): Unit {
+    operator fun plusAssign(flowComponent: FlowComponent<T>) {
         components.add(flowComponent)
     }
 
