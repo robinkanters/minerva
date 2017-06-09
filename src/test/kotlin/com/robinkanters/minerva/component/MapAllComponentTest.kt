@@ -25,7 +25,7 @@ class MapAllComponentTest {
 
         var result = emptyList<Int>()
         val measured = measureTimeMillis {
-            result = f.invoke(list)
+            result = f(list)
         }
 
         assertBetween(measured, 1.second, 6.seconds)
