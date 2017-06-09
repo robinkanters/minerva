@@ -1,10 +1,10 @@
 package com.robinkanters.minerva
 
-class TestComponent private constructor(private val result: String) : FlowComponent<String> {
-    var calledWith: String? = null
+class TestComponent<T> private constructor(private val result: T) : FlowComponent<T> {
+    var calledWith: T? = null
     var timesCalled: Int = 0
 
-    override fun run(payload: String): String {
+    override fun run(payload: T): T {
         calledWith = payload
         timesCalled++
 
@@ -12,6 +12,6 @@ class TestComponent private constructor(private val result: String) : FlowCompon
     }
 
     companion object {
-        fun Flow<String>.test(result: String) = TestComponent(result).apply { this@test += this }
+        fun <T> Flow<T>.test(result: T) = TestComponent(result).apply { this@test += this }
     }
 }

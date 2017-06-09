@@ -4,6 +4,7 @@ import com.robinkanters.minerva.Flow.Companion.flow
 import com.robinkanters.minerva.TestComponent.Companion.test
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import kotlin.system.measureNanoTime
 
 class FlowTest {
     @Test fun testBasicFlow_ReturnsCorrectResult() {
@@ -18,8 +19,8 @@ class FlowTest {
     }
 
     @Test fun testBasicFlow_ComponentsAreCalledExactlyOnceWithTheRightParameters() {
-        var t1: TestComponent? = null
-        var t2: TestComponent? = null
+        var t1: TestComponent<String>? = null
+        var t2: TestComponent<String>? = null
 
         val f = flow<String>("Test") {
             t1 = test("Bar")
@@ -35,8 +36,8 @@ class FlowTest {
     }
 
     @Test fun testFlowWithSubflow_ComponentsAreCalledExactlyOnceWithTheRightParameters() {
-        var t1: TestComponent? = null
-        var t2: TestComponent? = null
+        var t1: TestComponent<String>? = null
+        var t2: TestComponent<String>? = null
         var subFlow: Flow<String>? = null
 
         val f = flow<String>("Test") {
@@ -56,5 +57,24 @@ class FlowTest {
         assertEquals(1, t2!!.timesCalled)
 
         assertEquals("Baz", subFlow!!(""))
+    }
+
+    @Test fun testPerformanceForFlowWithLotsOfComponents() {
+        val numComponents = 100000
+
+        val f = flow<Int>("count flow") {}
+
+        (1..numComponents).forEach { f.test(it) }
+
+        var result: Int? = -1
+        val timeMeasured = measureNanoTime {
+            result = f(0)
+        }
+
+        assertEquals(numComponents, f.numComponents)
+        assertEquals(numComponents, result)
+
+        println("Running $numComponents components took $timeMeasured nanoseconds (${timeMeasured / 1_000_000_000} seconds)")
+        println("That's an average of ${timeMeasured / numComponents} nanoseconds (${(timeMeasured / numComponents.toDouble()) / 1_000_000_000.toDouble()} seconds) per component")
     }
 }

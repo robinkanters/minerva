@@ -3,6 +3,8 @@ package com.robinkanters.minerva
 class Flow<T> private constructor(@Suppress("unused") val name: String) : FlowComponent<T> {
     private val components: MutableList<FlowComponent<T>> = mutableListOf()
 
+    val numComponents get() = components.size
+
     operator fun invoke(payload: T) = run(payload)
 
     override fun run(payload: T) = process(payload, components)
