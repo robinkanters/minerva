@@ -12,7 +12,7 @@ import kotlin.system.measureTimeMillis
 class MapAllComponentTest {
     @Test
     fun run() {
-        val list = (1..10).toList()
+        val list = (1..3).toList()
 
         val f = flow<List<Int>>("") {
             mapAll { Thread.sleep(1000); it * 2 }
@@ -28,7 +28,7 @@ class MapAllComponentTest {
             result = f(list)
         }
 
-        assertBetween(measured, 1.second, 6.seconds)
+        assertBetween(measured, 1.second, 2.seconds)
         assertArrayEquals(list.map { it * 64 }.toIntArray(), result.toIntArray())
     }
 
