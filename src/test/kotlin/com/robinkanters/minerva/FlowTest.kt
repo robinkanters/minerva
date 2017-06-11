@@ -19,6 +19,15 @@ class FlowTest {
         assertEquals("Baz", result)
     }
 
+    @Test fun testBasicFlow_HasCorrectAmountOfComponents() {
+        val f = flow<String>("Test") {
+            test("Bar")
+            test("Baz")
+        }
+
+        assertEquals(2, f.numComponents)
+    }
+
     @Test fun testBasicFlow_ComponentsAreCalledExactlyOnceWithTheRightParameters() {
         var t1: TestComponent<String>? = null
         var t2: TestComponent<String>? = null
@@ -67,7 +76,7 @@ class FlowTest {
 
         (1..numComponents).forEach { f.test(it) }
 
-        var result: Int? = -1
+        var result = -1
         val timeMeasured = measureNanoTime {
             result = f(0)
         }
