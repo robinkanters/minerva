@@ -12,6 +12,6 @@ class TestComponent<T> private constructor(private val result: T) : FlowComponen
     }
 
     companion object {
-        fun <T> Flow<T>.test(result: T) = TestComponent(result).apply { this@test += this }
+        fun <T> Flow<T>.test(result: T) = put(TestComponent(result))
     }
 }

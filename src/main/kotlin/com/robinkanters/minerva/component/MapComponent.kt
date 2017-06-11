@@ -9,6 +9,6 @@ class MapComponent<T>(val lambda: (T) -> T) : FlowComponent<T> {
     }
 
     companion object {
-        fun <T> Flow<T>.map(lambda: (T) -> T) = MapComponent(lambda).apply { this@map += this }
+        fun <T> Flow<T>.map(lambda: (T) -> T) = put(MapComponent(lambda))
     }
 }

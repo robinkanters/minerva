@@ -1,7 +1,7 @@
 package com.robinkanters.minerva
 
 class Flow<T> private constructor(@Suppress("unused") val name: String) : FlowComponent<T> {
-    private val components: MutableList<FlowComponent<T>> = mutableListOf()
+    private val components = mutableListOf<FlowComponent<T>>()
 
     val numComponents get() = components.size
 
@@ -15,13 +15,14 @@ class Flow<T> private constructor(@Suppress("unused") val name: String) : FlowCo
         return process(components[0].run(payload), components.drop(1))
     }
 
-    operator fun plusAssign(flowComponent: FlowComponent<T>) {
+    fun put(flowComponent: FlowComponent<T>): Flow<T> {
         components.add(flowComponent)
+        return this
     }
 
     companion object {
         fun <T> flow(name: String, flow: Flow<T>.() -> Unit) = Flow<T>(name).apply { flow(this) }
 
-        fun <T> Flow<T>.flow(flow: Flow<T>.() -> Unit) = this@Companion.flow(name, flow).apply { this@flow += this }
+        fun <T> Flow<T>.flow(flow: Flow<T>.() -> Unit) = put(flow(name, flow))
     }
 }
