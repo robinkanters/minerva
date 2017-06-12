@@ -25,7 +25,7 @@ public class FlowJavaTest {
 
     @Test
     public void flowWithMapComponent() throws Exception {
-        Flow<String> flow = Flow.flow("name", new Function1<Flow<String>, Unit>() {
+        Flow<String> flow = flow("name", new Function1<Flow<String>, Unit>() {
             public Unit invoke(Flow<String> stringFlow) {
                 map(stringFlow, new Function1<String, String>() {
                     public String invoke(String s) {
