@@ -9,6 +9,7 @@ class MapComponent<T>(val lambda: (T) -> T) : FlowComponent<T> {
     }
 
     companion object {
+        @JvmStatic
         fun <T> Flow<T>.map(lambda: (T) -> T) = put(MapComponent(lambda))
     }
 }

@@ -15,14 +15,13 @@ class Flow<T> private constructor(@Suppress("unused") val name: String) : FlowCo
         return process(components[0].run(payload), components.drop(1))
     }
 
-    fun put(flowComponent: FlowComponent<T>): Flow<T> {
-        components.add(flowComponent)
-        return this
-    }
+    fun <C: FlowComponent<T>> put(flowComponent: C): C = flowComponent.apply { components.add(this) }
 
     companion object {
+        @JvmStatic
         fun <T> flow(name: String, flow: Flow<T>.() -> Unit) = Flow<T>(name).apply { flow(this) }
 
+        @JvmStatic
         fun <T> Flow<T>.flow(flow: Flow<T>.() -> Unit) = put(flow(name, flow))
     }
 }

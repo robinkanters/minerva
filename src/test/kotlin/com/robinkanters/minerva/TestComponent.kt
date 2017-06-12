@@ -12,6 +12,7 @@ class TestComponent<T> private constructor(private val result: T) : FlowComponen
     }
 
     companion object {
+        @JvmStatic
         fun <T> Flow<T>.test(result: T) = put(TestComponent(result))
     }
 }
