@@ -5,8 +5,6 @@ class Flow<T> private constructor(@Suppress("unused") val name: String) : FlowCo
 
     val numComponents get() = components.size
 
-    operator fun invoke(payload: T) = run(payload)
-
     override fun run(payload: T) = process(payload, components)
 
     private tailrec fun <T> process(payload: T, components: List<FlowComponent<T>>): T {
