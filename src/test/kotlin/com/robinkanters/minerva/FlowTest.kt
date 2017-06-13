@@ -2,7 +2,9 @@ package com.robinkanters.minerva
 
 import com.robinkanters.minerva.Flow.Companion.flow
 import com.robinkanters.minerva.TestComponent.Companion.test
+import com.robinkanters.minerva.component.ForEachComponent.Companion.forEach
 import com.robinkanters.minerva.component.HttpGetComponent.Companion.httpGet
+import com.robinkanters.minerva.component.MapAllComponent.Companion.mapAll
 import com.robinkanters.minerva.component.MapComponent.Companion.map
 import com.robinkanters.minerva.component.SetPayloadComponent.Companion.setPayload
 import org.junit.Assert.assertEquals
@@ -87,6 +89,31 @@ class FlowTest {
         val result = f("")
 
         assertTrue(result.contains("Fibonacci Cat Years"))
+    }
+
+    @Test fun testWithMultipleGetRequests() {
+        val f = flow<List<String>>("") {
+            mapAll {
+                "https://random.show/podcasts/hello-internet/episodes/$it.json"
+            }
+
+            forEach {
+                httpGet()
+            }
+
+            mapAll {
+                it.replace("H.I.", "B.Y.E.")
+            }
+        }
+
+        val result = f(listOf(
+                "h-i--15--books-made-of-paper",
+                "h-i--24--mr-complainy-pants",
+                "h-i--30--fibonacci-dog-years",
+                "h-i--72--64-pairs-of-underwear"
+        ))
+
+        result.forEach(::println)
     }
 
     @Ignore @Test fun testPerformanceForFlowWithLotsOfComponents() {
