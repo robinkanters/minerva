@@ -4,6 +4,7 @@ import com.robinkanters.minerva.Flow.Companion.flow
 import com.robinkanters.minerva.TestComponent.Companion.test
 import com.robinkanters.minerva.component.HttpGetComponent.Companion.httpGet
 import com.robinkanters.minerva.component.MapComponent.Companion.map
+import com.robinkanters.minerva.component.SetPayloadComponent.Companion.setPayload
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Ignore
@@ -74,7 +75,7 @@ class FlowTest {
 
     @Test fun testHttpGetComponentWithUrlFromPayload() {
         val f = flow<String>("") {
-            test("https://random.show/podcasts/hello-internet/episodes/h-i--30--fibonacci-dog-years.json")
+            setPayload("https://random.show/podcasts/hello-internet/episodes/h-i--30--fibonacci-dog-years.json")
 
             httpGet()
 
