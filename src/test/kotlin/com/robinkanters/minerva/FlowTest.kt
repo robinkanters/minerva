@@ -2,7 +2,10 @@ package com.robinkanters.minerva
 
 import com.robinkanters.minerva.Flow.Companion.flow
 import com.robinkanters.minerva.TestComponent.Companion.test
+import com.robinkanters.minerva.component.HttpGetComponent.Companion.httpGet
+import com.robinkanters.minerva.component.MapComponent.Companion.map
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Ignore
 import org.junit.Test
 import kotlin.system.measureNanoTime
@@ -67,6 +70,22 @@ class FlowTest {
         assertEquals(1, t2!!.timesCalled)
 
         assertEquals("Baz", subFlow!!(""))
+    }
+
+    @Test fun testHttpGetComponentWithUrlFromPayload() {
+        val f = flow<String>("") {
+            test("https://random.show/podcasts/hello-internet/episodes/h-i--30--fibonacci-dog-years.json")
+
+            httpGet()
+
+            map {
+                it.replace("Dog", "Cat")
+            }
+        }
+
+        val result = f("")
+
+        assertTrue(result.contains("Fibonacci Cat Years"))
     }
 
     @Ignore @Test fun testPerformanceForFlowWithLotsOfComponents() {
