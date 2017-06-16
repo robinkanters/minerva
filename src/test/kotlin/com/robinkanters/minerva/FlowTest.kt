@@ -2,6 +2,7 @@ package com.robinkanters.minerva
 
 import com.robinkanters.minerva.Flow.Companion.flow
 import com.robinkanters.minerva.TestComponent.Companion.test
+import com.robinkanters.minerva.component.FilterComponent.Companion.filter
 import com.robinkanters.minerva.component.ForEachComponent.Companion.forEach
 import com.robinkanters.minerva.component.HttpGetComponent.Companion.httpGet
 import com.robinkanters.minerva.component.MapAllComponent.Companion.mapAll
@@ -93,6 +94,11 @@ class FlowTest {
 
     @Test fun testWithMultipleGetRequests() {
         val f = flow<List<String>>("") {
+            filter {
+                // Matches "--xN--" where N is even and x is absent or a number > 0
+                isEvenEpisodeNumber(it)
+            }
+
             mapAll {
                 "https://random.show/podcasts/hello-internet/episodes/$it.json"
             }
@@ -113,8 +119,12 @@ class FlowTest {
                 "h-i--72--64-pairs-of-underwear"
         ))
 
-        result.forEach(::println)
+        result.forEach {
+            assertTrue(it.startsWith("{\""))
+        }
     }
+
+    private fun isEvenEpisodeNumber(episodeSlug: String) = episodeSlug.matches(Regex(".*--(?:[1-9]+\\d*)?[24680]--.*"))
 
     @Ignore @Test fun testPerformanceForFlowWithLotsOfComponents() {
         val numComponents = 100000
