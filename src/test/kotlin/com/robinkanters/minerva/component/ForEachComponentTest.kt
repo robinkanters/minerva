@@ -13,7 +13,7 @@ class ForEachComponentTest {
 
         val f = flow<List<Int>>("") {
             forEach {
-                map { n -> println(n); n * 2 }
+                map { n -> n * 2 }
             }
         }
 

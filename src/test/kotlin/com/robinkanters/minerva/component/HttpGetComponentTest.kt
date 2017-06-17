@@ -60,7 +60,6 @@ class HttpGetComponentTest {
 
         (0..2).endInclusive
 
-        println(response)
         assertEquals("{\"", response.substring(0..1))
     }
 }
