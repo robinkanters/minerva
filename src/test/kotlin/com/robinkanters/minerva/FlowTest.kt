@@ -35,6 +35,12 @@ class FlowTest {
         assertEquals(2, f.numComponents)
     }
 
+    @Test fun flowWithoutName() {
+        val f = flow<String> { }
+
+        assertEquals("Foo", f("Foo"))
+    }
+
     @Test fun testBasicFlow_ComponentsAreCalledExactlyOnceWithTheRightParameters() {
         var t1: TestComponent<String>? = null
         var t2: TestComponent<String>? = null

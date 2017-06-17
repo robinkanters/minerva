@@ -1,6 +1,6 @@
 package com.robinkanters.minerva
 
-class Flow<T> private constructor(@Suppress("unused") val name: String) : FlowComponent<T> {
+class Flow<T> private constructor(@Suppress("unused") val name: String? = null) : FlowComponent<T> {
     private val components = mutableListOf<FlowComponent<T>>()
 
     val numComponents get() = components.size
@@ -17,7 +17,7 @@ class Flow<T> private constructor(@Suppress("unused") val name: String) : FlowCo
 
     companion object {
         @JvmStatic
-        fun <T> flow(name: String, flow: Flow<T>.() -> Unit) = Flow<T>(name).apply { flow(this) }
+        fun <T> flow(name: String? = null, flow: Flow<T>.() -> Unit) = Flow<T>(name).apply { flow(this) }
 
         @JvmStatic
         fun <T> Flow<T>.flow(flow: Flow<T>.() -> Unit) = put(flow(name, flow))
