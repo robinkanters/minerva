@@ -11,7 +11,7 @@ class ForEachComponentTest {
     fun run() {
         val list = (1..10).toList()
 
-        val f = flow<List<Int>>("") {
+        val f = flow<List<Int>> {
             forEach {
                 map { n -> n * 2 }
             }

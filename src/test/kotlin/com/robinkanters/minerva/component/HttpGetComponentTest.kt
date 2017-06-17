@@ -43,7 +43,7 @@ class HttpGetComponentTest {
     @Test fun httpGetComponentInFlow() {
         testHttpService.response = "Bar"
 
-        val flow = flow<String>("") {
+        val flow = flow<String> {
             httpGet("Foo", httpService = testHttpService)
         }
 

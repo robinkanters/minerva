@@ -16,7 +16,7 @@ import kotlin.system.measureNanoTime
 
 class FlowTest {
     @Test fun testBasicFlow_ReturnsCorrectResult() {
-        val f = flow<String>("Test") {
+        val f = flow<String> {
             test("Bar")
             test("Baz")
         }
@@ -27,7 +27,7 @@ class FlowTest {
     }
 
     @Test fun testBasicFlow_HasCorrectAmountOfComponents() {
-        val f = flow<String>("Test") {
+        val f = flow<String> {
             test("Bar")
             test("Baz")
         }
@@ -35,17 +35,17 @@ class FlowTest {
         assertEquals(2, f.numComponents)
     }
 
-    @Test fun flowWithoutName() {
-        val f = flow<String> { }
+    @Test fun flowWithName() {
+        val f = flow<String>("Bar") { }
 
-        assertEquals("Foo", f("Foo"))
+        assertEquals("Bar", f.name)
     }
 
     @Test fun testBasicFlow_ComponentsAreCalledExactlyOnceWithTheRightParameters() {
         var t1: TestComponent<String>? = null
         var t2: TestComponent<String>? = null
 
-        val f = flow<String>("Test") {
+        val f = flow<String> {
             t1 = test("Bar")
             t2 = test("Baz")
         }
@@ -63,7 +63,7 @@ class FlowTest {
         var t2: TestComponent<String>? = null
         var subFlow: Flow<String>? = null
 
-        val f = flow<String>("Test") {
+        val f = flow<String> {
             t1 = test("Bar")
 
             subFlow = flow {
@@ -83,7 +83,7 @@ class FlowTest {
     }
 
     @Test fun testHttpGetComponentWithUrlFromPayload() {
-        val f = flow<String>("") {
+        val f = flow<String> {
             setPayload("https://random.show/podcasts/hello-internet/episodes/h-i--30--fibonacci-dog-years.json")
 
             httpGet()
@@ -99,7 +99,7 @@ class FlowTest {
     }
 
     @Test fun testWithMultipleGetRequests() {
-        val f = flow<List<String>>("") {
+        val f = flow<List<String>> {
             filter {
                 // Matches "--xN--" where N is even and x is absent or a number > 0
                 isEvenEpisodeNumber(it)
@@ -135,7 +135,7 @@ class FlowTest {
     @Ignore @Test fun testPerformanceForFlowWithLotsOfComponents() {
         val numComponents = 100000
 
-        val f = flow<Int>("count flow") {}
+        val f = flow<Int> {}
 
         (1..numComponents).forEach { f.test(it) }
 

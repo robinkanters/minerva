@@ -13,7 +13,7 @@ class SetPayloadComponentTest {
     }
 
     @Test fun inFlow() {
-        val flow = flow<String>("") {
+        val flow = flow<String> {
             setPayload("Foo")
         }
 

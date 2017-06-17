@@ -8,7 +8,7 @@ import org.junit.Test
 class MapComponentTest {
     @Test
     fun testPlusOne() {
-        val flow = flow<Int>("") {
+        val flow = flow<Int> {
             map {
                 it + 1
             }
@@ -21,7 +21,7 @@ class MapComponentTest {
 
     @Test
     fun testTimesTwo() {
-        val flow = flow<Int>("") {
+        val flow = flow<Int> {
             map { it * 2 }
         }
 

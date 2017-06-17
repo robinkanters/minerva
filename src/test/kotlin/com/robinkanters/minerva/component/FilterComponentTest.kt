@@ -23,7 +23,7 @@ class FilterComponentTest {
         val oneToTen = (1..10).toList()
         val evenNumbers = oneToTen.filter { it % 2 == 0 }
 
-        val f = flow<List<Int>>("") {
+        val f = flow<List<Int>> {
             filter { it % 2 == 0 }
         }
 

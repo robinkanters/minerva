@@ -14,7 +14,7 @@ class MapAllComponentTest {
     fun run() {
         val list = (1..3).toList()
 
-        val f = flow<List<Int>>("") {
+        val f = flow<List<Int>> {
             mapAll { Thread.sleep(1000); it * 2 }
 
             forEach {
